@@ -2,8 +2,8 @@ import React from "react";
 import { Container } from "react-bootstrap";
 
 //import Background from "./components/Background";
-import Countdown from "./components/Countdown";
-import Footer from "./components/Footer";
+import Countdown from "./public/components/Countdown";
+import Footer from "./public/components/Footer";
 import Background from "./assets/chendol.jpg";
 
 const styles = {
