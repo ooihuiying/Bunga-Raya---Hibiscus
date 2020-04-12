@@ -11,9 +11,9 @@ const styles = {
 export default (props) => {
 	return (
 		<footer style={styles.root}>
-			Ooi Hui Ying{" "}
+			HY{" "}
 			|{" "}
-			Ooi Yue Ying
+			YY
 			<br />
 			<a
 				href="https://www.freepik.com/free-photos-vectors/banner"
