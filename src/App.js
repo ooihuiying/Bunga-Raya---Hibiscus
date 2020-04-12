@@ -1,41 +1,27 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Main from './public/pages/Main';
+import Info from './public/pages/Info';
+import ThingsToDo from './public/pages/ThingsToDo';
 
-//import Background from "./components/Background";
-import Countdown from "./public/components/Countdown";
-import Footer from "./public/components/Footer";
-import Background from "./assets/chendol.jpg";
-
-const styles = {
-	root: {
-		width: '100vw',
-    height: '100vh',
-    textAlign: "center",
-		display: "flex",
-    flexDirection: "column",
-    backgroundImage: `url(${Background})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-	},
-	main: {
-		flexGrow: "0.85",
-	},
-	container: {
-    marginTop: "15vh",
-    height: "100%",
-	},
-};
 
 function App() {
 	return (
-		<div style={styles.root}>
-			<main style={styles.main}>
-				<Container style={styles.container}>
-					<Countdown />
-				</Container>
-			</main>
-			<Footer />
-		</div>
+    <Router>
+       <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <ul className="navbar-nav mr-auto">
+            <li><Link to={'/'} className="nav-link"> Home </Link></li>
+            <li><Link to={'/Info'} className="nav-link">Info</Link></li>
+            <li><Link to={'/ThingsToDo'} className="nav-link">ThingsToDo</Link></li>
+          </ul>
+        </nav>
+        <Switch>
+              <Route exact path='/' component={Main} />
+              <Route path='/Info' component={Info} />
+              <Route path='/ThingsToDo' component={ThingsToDo} />
+          </Switch>  
+
+    </Router>
 	);
 }
 

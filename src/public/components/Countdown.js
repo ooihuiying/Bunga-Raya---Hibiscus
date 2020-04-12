@@ -1,93 +1,91 @@
 import React, { useState, useEffect } from "react";
-import ProgressBar from 'react-bootstrap/ProgressBar'
 
 
-
-const startDate = new Date(2020, 2, 18); // 3 = April
-const endDate = new Date(2020, 3, 28); // 4 = May
+const startDate = new Date(2020, 2, 18); // 2 = March
+const endDate = new Date(2020, 3, 28); // 3 = April
 const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
 
 const styles = {
 	root: {
-		color: "white",
-        fontSize: "40px",
+		margin: "35px",
+		fontSize: "40px",
+		color: "#7b5353"
 	},
 	header: {
 		fontWeight: "bold",
 		fontSize: "28px",
+		color:"#7b5353"
 	},
 	underline: {
 		textDecoration: "underline",
 		fontWeight: "bold",
+		color:"#7b5353"
 	},
-	progressBarWrapper: {
-        position: "relative",
-        color: "white"
+	content :{
+		marginTop: "15vh",
+		backgroundColor: 'rgba(	243,222,163,0.5)',
+		borderRadius: "20px",
 	},
-	progressBar: {
-		maxWidth: "480px",
-		height: "40px",
-		margin: "20px auto 0 auto",
-        borderRadius: "20px",
-        color:"yellow"
+	colouredLine: {
+            backgroundColor: "#a4cc96",
+			height: 20,
+			width: "100%"
+
 	},
-	progressBarText: {
-		position: "absolute",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		top: "0",
-		left: "0",
-		right: "0",
-		bottom: "0",
-		color: "#5F5F5F",
-		fontSize: "20px",
+	date: {
+		fontSize: 30,
+		color: "#7b5353"
 	},
 };
 
 export default () => {
 	const [daysElapsed, setDaysElapsed] = useState("");
-	const [daysLeft, setDaysLeft] = useState("");
+	const [hoursElapsed, sethoursElapsed] = useState("");
+	const [minuteElapsed, setminuteElapsed] = useState("");
+	const [secondsElapsed, setsecondsElapsed] = useState("");
 
+	const [todayDate, setTodayDate] = useState("");
+	const [todayMonth, setTodayMonth] = useState("");
+	const [todayDay, setTodayDay] = useState("");
 	useEffect(() => {
-		const intervalID = setInterval(() => {
+		const intervalID = setInterval(
+			() => {
 			const today = new Date();
-			const timeElapsed = Math.abs(today - startDate);
+			const todayDate = today.getDate();
+			const todayMonth = today.getMonth();
+			const todayDay = today.getDay();
 
+			const timeElapsed = Math.abs(endDate - today);
 			const daysElapsed = Math.ceil(timeElapsed / (1000 * 60 * 60 * 24));
-			const daysLeft = totalDays - daysElapsed;
-
 			setDaysElapsed(daysElapsed);
-			setDaysLeft(daysLeft);
-		}, 500);
-
-		return () => clearInterval(intervalID);
+			setTodayDate(todayDate);
+			setTodayMonth(months[todayMonth]);
+			setTodayDay(days[todayDay]);
+			sethoursElapsed(Math.floor((timeElapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+			setminuteElapsed(Math.floor((timeElapsed % (1000 * 60 * 60)) / (1000 * 60)));
+			setsecondsElapsed (Math.floor((timeElapsed % (1000 * 60)) / 1000));
+	
+			},
+			1000
+		  );
+		  return () => clearInterval(intervalID);
 	}, []);
 
 	return (
-        // <ProgressBar striped variant="success" now={60}/>
-		<div style={styles.root}>
-			<h1 style={styles.header}>Hello Malaysia,</h1>
-			It is <span style={styles.underline}>Day {daysElapsed}</span> of
-			<br />
-			the {totalDays}-day Lock down.
-            
-			<div style={styles.progressBarWrapper}> 
-				<ProgressBar
-					style={styles.progressBar}
-					now={daysElapsed}
-					max={totalDays}
-				/>
-				<div style={styles.progressBarText}>
-					<span>
-						Just{" "}
-						<b>
-							{daysLeft} day{daysLeft > 1 && "s"}
-						</b>{" "}
-						left!
-					</span>
-				</div> 
-			 </div>
+		<div style={styles.content}>
+			<div style={styles.colouredLine} />
+			<div style = {styles.date}>
+				{todayDate}{"  "}{todayMonth}{"  "}{"2020"}{"  "}{todayDay}
+			</div>
+			<div style={styles.colouredLine} />
+			<div style={styles.root}>
+	Days Remaining:  <span style={styles.underline}>{daysElapsed} Days {hoursElapsed} Hours {minuteElapsed} Minute {secondsElapsed} Seconds</span> 
+				<br />
+				{totalDays}-days Movement Control Order.
+			</div>
 		</div>
 	);
 };
